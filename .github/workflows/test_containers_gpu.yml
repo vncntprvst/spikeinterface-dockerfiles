@@ -45,6 +45,8 @@ jobs:
         env:
           REPO_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: |
-          sudo singularity config fakeroot --add runner
+          sudo sh -c 'echo kernel.unprivileged_userns_clone=1 \
+              >/etc/sysctl.d/90-unprivileged_userns.conf'
+          sudo sysctl -p /etc/sysctl.d /etc/sysctl.d/90-unprivileged_userns.conf
           pip install -r requirements_test.txt
           pytest -sv tests/test_singularity_containers.py::test_tridesclous
