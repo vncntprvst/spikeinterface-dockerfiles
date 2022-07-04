@@ -41,4 +41,4 @@ jobs:
           REPO_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: |
           pip install -r requirements_test.txt
-          pytest -sv tests/test_singularity_containers.py::tridesclous
+          pytest -sv tests/test_singularity_containers.py::test_tridesclous
