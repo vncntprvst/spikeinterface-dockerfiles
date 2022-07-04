@@ -45,5 +45,6 @@ jobs:
         env:
           REPO_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: |
+          sudo sysctl -w kernel.unprivileged_userns_clone=1
           pip install -r requirements_test.txt
           pytest -sv tests/test_singularity_containers.py::test_tridesclous
