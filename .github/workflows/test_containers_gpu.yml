@@ -35,11 +35,11 @@ jobs:
       - name: Install singularity dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y wget
-          wget https://ufpr.dl.sourceforge.net/project/squashfs/squashfs/squashfs4.5.1/squashfs-tools-4.5.1.tar.gz
-          tar -zxvf squashfs-tools-4.5.1.tar.gz
-          cd squashfs4.5.1/squashfs-tools
-          make && sudo make install
+          sudo apt-get install -y wget squashfs-tools
+          sudo sh -c 'echo kernel.unprivileged_userns_clone=1 \
+              >/etc/sysctl.d/90-unprivileged_userns.conf'
+          sudo sysctl -p /etc/sysctl.d /etc/sysctl.d/90-unprivileged_userns.conf
+          sudo singularity config fakeroot --add runner
 
       - uses: eWaterCycle/setup-singularity@v7
         with:
