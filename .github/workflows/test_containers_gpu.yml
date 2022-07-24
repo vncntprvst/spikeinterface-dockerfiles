@@ -32,16 +32,18 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install singularity dependencies
+      - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y wget squashfs-tools
+          pip install -U pip
+          pip install -r requirements_test.txt
 
-          # sudo apt install apt-transport-https ca-certificates curl software-properties-common
-          # curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-          # sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu `lsb_release -cs` test"
-          # sudo apt update
-          # sudo apt install docker-ce
+          sudo apt install apt-transport-https ca-certificates curl software-properties-common
+          curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+          sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu `lsb_release -cs` test"
+          sudo apt update
+          sudo apt install docker-ce
 
       - uses: eWaterCycle/setup-singularity@v7
         with:
@@ -51,5 +53,4 @@ jobs:
         env:
           REPO_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: |
-          pip install -r requirements_test.txt
           pytest -sv tests/test_containers_gpu.py
