@@ -1,6 +1,7 @@
 name: CI-Test in AWS for GPU
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - ci-test-gpu
@@ -25,10 +26,10 @@ jobs:
   test-gpu-sorters:
     needs: deploy-runner
     runs-on: [self-hosted, cml-gpu]
-    timeout-minutes: 4320 # 72h
+    timeout-minutes: 360 # 6h
     container:
       image: docker://iterativeai/cml:0-dvc2-base1-gpu
-      options: --privileged --gpus all
+      options: --gpus all
     steps:
       - uses: actions/checkout@v3
 
@@ -44,6 +45,7 @@ jobs:
           sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu `lsb_release -cs` test"
           sudo apt update
           sudo apt install docker-ce
+          pip install docker
 
       - uses: eWaterCycle/setup-singularity@v7
         with:
