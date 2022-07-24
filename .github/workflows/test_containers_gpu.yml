@@ -32,6 +32,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Install singularity dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget squashfs-tools
+
+          # sudo apt install apt-transport-https ca-certificates curl software-properties-common
+          # curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+          # sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu `lsb_release -cs` test"
+          # sudo apt update
+          # sudo apt install docker-ce
+
       - uses: eWaterCycle/setup-singularity@v7
         with:
           singularity-version: 3.8.3
