@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.0-base-ubuntu18.04 
+FROM nvidia/cuda:11.5.2-base-ubuntu20.04
 
 LABEL maintainer="Alessio Buccino <alessiop.buccino@gmail.com>"
 
@@ -37,6 +37,7 @@ WORKDIR /src/pykilosort
 # modify env file so that env extends on base
 RUN sed -i "s/pyks2/base/" pyks2.yml
 RUN sed -i "s/- spikeinterface//" pyks2.yml
+# RUN cat pyks2.yml
 
 # Create environment
 RUN conda env update --name base --file pyks2.yml --prune
@@ -44,7 +45,7 @@ RUN conda env update --name base --file pyks2.yml --prune
 # Install pykilosort
 RUN conda install --quiet --yes ipykernel && \
     python -m ipykernel install --user --display-name "pyKilosort" && \ 
-    conda develop .   
+    pip install -e .
+    # conda develop .   
 
-#--name pyks2
 WORKDIR /
